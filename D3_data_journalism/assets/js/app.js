@@ -44,12 +44,14 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     // Step 2: Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([d3.min(stateData, d => d.poverty)-1, d3.max(stateData, d => d.poverty)+5])
-      .range([0, width]);
+      .domain([d3.min(stateData, d => d.poverty), d3.max(stateData, d => d.poverty)])
+      .range([0, width])
+      .nice();
 
     var yLinearScale = d3.scaleLinear()
-      .domain([d3.min(stateData, d => d.healthcare)-1, d3.max(stateData, d => d.healthcare)+1])
-      .range([height, 0]);
+      .domain([d3.min(stateData, d => d.healthcare), d3.max(stateData, d => d.healthcare)])
+      .range([height, 0])
+      .nice();
 
     // Step 3: Create axis functions
     // ==============================
@@ -65,7 +67,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     chartGroup.append("g")
       .call(leftAxis);
 
-    // Step 5: Create Circles
+    // Step 5: Create ScatterPlot
     // ==============================
     var circlesGroup = chartGroup.selectAll("circle")
     .data(stateData)
@@ -73,9 +75,15 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     .append("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
-    .attr("r", "15")
-    .attr("fill", "green")
-    .attr("opacity", ".5");
+    .attr("r", "10")
+    .attr("opacity", ".8")
+    .classed("stateCircle", true);
+
+    circlesText = circlesGroup.append("text")
+    .text(d => d.abbr)
+    .attr("dx", d => xLinearScale(d.poverty))
+    .attr("dy", d => yLinearScale(d.healthcare) + 5)
+    .classed("stateText", true);
 
     // Step 6: Initialize tool tip
     // ==============================
