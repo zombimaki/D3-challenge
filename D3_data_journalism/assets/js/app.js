@@ -79,11 +79,16 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("opacity", ".8")
         .classed("stateCircle", true);
 
-    circlesGroup.append("text")
-        .text(d => d.abbr)
-        .attr("dx", d => xLinearScale(d.poverty))
-        .attr("dy", d => yLinearScale(d.healthcare) + 5)
-        .classed("stateText", true);
+        var textGroup = chartGroup.selectAll(".stateText")
+        .data(stateData)
+        .enter()
+        .append("text")
+        .classed("stateText", true)
+        .attr("x", d => xLinearScale(d.poverty))
+        .attr("y", d => yLinearScale(d.healthcare))
+        .attr("dy", 3)
+        .attr("font-size", "9px")
+        .text(function(d) { return d.abbr });
 
     // Step 6: Initialize tool tip
     // ==============================
