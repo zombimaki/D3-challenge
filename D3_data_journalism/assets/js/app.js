@@ -1,8 +1,7 @@
 //////////////////////////////////////////////////////////////////
-// Create the svg for the scatterplot
+// set the dimensions for the SVG container
 //////////////////////////////////////////////////////////////////
 
-// Setting the dimensions for the SVG container
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -16,33 +15,41 @@ var margin = {
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
-// Create an SVG wrapper, append an SVG group that will hold our chart,
-// and shift the latter by left and top margins.
+///////////////////////////////////////////////////////////////////////
+// create the svg for the scatterplot
+//////////////////////////////////////////////////////////////////////
 var svg = d3
     .select("#scatter")
     .append("svg")
     .attr("width", svgWidth)
     .attr("height", svgHeight);
 
-// Append an SVG group
+//////////////////////////////////////////////////////////////////////
+// Append SVG group
+//////////////////////////////////////////////////////////////////////
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// Import Data
+//////////////////////////////////////////////////////////////////////
+// import Data
+//////////////////////////////////////////////////////////////////////
+
 d3.csv("assets/data/data.csv").then(function(stateData) {
 
     // send csv data to console for testing
     console.log(stateData)
 
-    // Step 1: Parse Data/Cast as numbers
-    // ==============================
+    //////////////////////////////////////////////////////////////////
+    // parse Data/Cast as numbers
+    //////////////////////////////////////////////////////////////////
     stateData.forEach(function(data) {
         data.poverty = +data.poverty;
         data.healthcare = +data.healthcare;        
       });
 
-    // Step 2: Create scale functions
-    // ==============================
+    //////////////////////////////////////////////////////////////////
+    // create scale functions
+    //////////////////////////////////////////////////////////////////
     var xLinearScale = d3.scaleLinear()
         .domain([d3.min(stateData, d => d.poverty), d3.max(stateData, d => d.poverty)])
         .range([0, width])
@@ -53,13 +60,15 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .range([height, 0])
         .nice();
 
-    // Step 3: Create axis functions
-    // ==============================
+    //////////////////////////////////////////////////////////////////
+    // create axis functions
+    //////////////////////////////////////////////////////////////////
     var bottomAxis = d3.axisBottom(xLinearScale);
     var leftAxis = d3.axisLeft(yLinearScale);
 
-    // Step 4: Append Axes to the chart
-    // ==============================
+    //////////////////////////////////////////////////////////////////
+    // append Axes to the chart
+    //////////////////////////////////////////////////////////////////
     chartGroup.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(bottomAxis);
@@ -67,8 +76,10 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     chartGroup.append("g")
         .call(leftAxis);
 
-    // Step 5: Create ScatterPlot
-    // ==============================
+    //////////////////////////////////////////////////////////////////
+    // create ScatterPlot
+    //////////////////////////////////////////////////////////////////
+
     var circlesGroup = chartGroup.selectAll("circle")
         .data(stateData)
         .enter()
@@ -79,7 +90,10 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("opacity", ".8")
         .classed("stateCircle", true);
 
-        var textGroup = chartGroup.selectAll(".stateText")
+    //////////////////////////////////////////////////////////////////
+    // populate circles with state abbreviation    
+    //////////////////////////////////////////////////////////////////
+    var textGroup = chartGroup.selectAll(".stateText")
         .data(stateData)
         .enter()
         .append("text")
@@ -89,27 +103,39 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         .attr("dy", 3)
         .attr("font-size", "9px")
         .text(function(d) { return d.abbr });
+    
+    //////////////////////////////////////////////////////////////////////
+    // initialize tool tip
+    //////////////////////////////////////////////////////////////////////
 
-    // Step 6: Initialize tool tip
-    // ==============================
     var toolTip = d3.tip()
         .attr("class", "tooltip")
         .offset([80, -60])
         .html(function(d) {
         return (`${d.state}<br>Poverty: ${d.poverty}<br>Healthcare: ${d.healthcare}`);
       });
+    
+    //////////////////////////////////////////////////////////////////////
+    // create tooltip in the chart
+    //////////////////////////////////////////////////////////////////////
 
-    // Step 7: Create tooltip in the chart
-    // ==============================
     chartGroup.call(toolTip);
+    
+    //////////////////////////////////////////////////////////////////////
+    // create event listeners to display and hide the tooltip
+    //////////////////////////////////////////////////////////////////////
 
-    // Step 8: Create event listeners to display and hide the tooltip
-    // ==============================
     circlesGroup.on("click", function(data) {
         toolTip.show(data, this);
-    })
-      // onmouseout event
-      .on("mouseout", function(data, index) {
+    }).on("mouseout", function(data, index) {
+        toolTip.hide(data);
+      });
+
+    
+    // in case the text is clicked instead of hte circle
+    textGroup.on("click", function(data) {
+        toolTip.show(data, this);
+    }).on("mouseout", function(data, index) {
         toolTip.hide(data);
       });
 
