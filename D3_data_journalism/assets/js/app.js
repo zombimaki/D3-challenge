@@ -110,7 +110,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     //////////////////////////////////////////////////////////////////////
 
     var toolTip = d3.tip()
-        .attr("class", "tooltip")
+        .attr("class", "d3-tip")
         .offset([80, -60])
         .html(function(d) {
         return (`${d.state}<br>Poverty: ${d.poverty}<br>Healthcare: ${d.healthcare}`);
@@ -141,7 +141,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     //////////////////////////////////////////////////////////////////////
     // Create axes labels
     //////////////////////////////////////////////////////////////////////
-    
+
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left + 40)
