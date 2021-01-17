@@ -5,7 +5,7 @@
 // set the dimensions for the SVG container
 var svgWidth = 960;
 var svgHeight = 600;
-var margin = {top: 20, right: 40, bottom: 200, left: 100};
+var margin = {top: 50, right: 150, bottom: 200, left: 100};
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 
@@ -341,15 +341,17 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
                     povertyLabel.classed("active", true).classed("inactive", false);
                     ageLabel.classed("active", false).classed("inactive", true);
                     incomeLabel.classed("active", false).classed("inactive", true);
+
                 } else if (selectedX === "age") {
                     povertyLabel.classed("active", false).classed("inactive", true);
                     ageLabel.classed("active", true).classed("inactive", false);
                     incomeLabel.classed("active", false).classed("inactive", true);
+                    
                 } else {
                     povertyLabel.classed("active", false).classed("inactive", true);
                     ageLabel.classed("active", false).classed("inactive", true);
                     incomeLabel.classed("active", true).classed("inactive", false);
-                }
+                }                
             }
         });
     
@@ -388,10 +390,12 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
                     obesityLabel.classed("active", true).classed("inactive", false);
                     smokesLabel.classed("active", false).classed("inactive", true);
                     healthcareLabel.classed("active", false).classed("inactive", true);
+
                 } else if (selectedY === "smokes") {
                     obesityLabel.classed("active", false).classed("inactive", true);
                     smokesLabel.classed("active", true).classed("inactive", false);
                     healthcareLabel.classed("active", false).classed("inactive", true);
+
                 } else {
                     obesityLabel.classed("active", false).classed("inactive", true);
                     smokesLabel.classed("active", false).classed("inactive", true);
@@ -399,8 +403,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
                 }
             }
         });
-
-    
+  
 }).catch(function(error) {
     console.log(error);
   });
