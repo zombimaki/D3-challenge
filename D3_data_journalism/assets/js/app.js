@@ -93,6 +93,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     //////////////////////////////////////////////////////////////////
     // populate circles with state abbreviation    
     //////////////////////////////////////////////////////////////////
+
     var textGroup = chartGroup.selectAll(".stateText")
         .data(stateData)
         .enter()
@@ -131,15 +132,16 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
         toolTip.hide(data);
       });
 
-    
-    // in case the text is clicked instead of hte circle
     textGroup.on("click", function(data) {
         toolTip.show(data, this);
     }).on("mouseout", function(data, index) {
         toolTip.hide(data);
       });
-
+    
+    //////////////////////////////////////////////////////////////////////
     // Create axes labels
+    //////////////////////////////////////////////////////////////////////
+    
     chartGroup.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 0 - margin.left + 40)
