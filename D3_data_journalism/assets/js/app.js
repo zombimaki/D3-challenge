@@ -197,25 +197,27 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
                 // execute updateToolTip function with selected data
                 updateToolTip(selectedX, selectedY, stateGroup);
 
-                // update active class flag for selected label
-                if (selectedX === "poverty") {
-                    povertyLabel.classed("active", true).classed("inactive", false);
-                    ageLabel.classed("active", false).classed("inactive", true);
-                    incomeLabel.classed("active", false).classed("inactive", true);
+                // make selected x label active                
+                (selectedX === "poverty") ? 
+                    ( 
+                        povertyLabel.classed("active", true).classed("inactive", false),
+                        ageLabel.classed("active", false).classed("inactive", true),
+                        incomeLabel.classed("active", false).classed("inactive", true)) 
 
-                } else if (selectedX === "age") {
-                    povertyLabel.classed("active", false).classed("inactive", true);
-                    ageLabel.classed("active", true).classed("inactive", false);
-                    incomeLabel.classed("active", false).classed("inactive", true);
-                    
-                } else {
-                    povertyLabel.classed("active", false).classed("inactive", true);
-                    ageLabel.classed("active", false).classed("inactive", true);
-                    incomeLabel.classed("active", true).classed("inactive", false);
-                }                
-            }
+                        : ((selectedX === "age") ? 
+                            (
+                                povertyLabel.classed("active", false).classed("inactive", true),
+                                ageLabel.classed("active", true).classed("inactive", false),
+                                incomeLabel.classed("active", false).classed("inactive", true)) 
+
+                            : 
+                                (
+                                    povertyLabel.classed("active", false).classed("inactive", true),
+                                    ageLabel.classed("active", false).classed("inactive", true),
+                                    incomeLabel.classed("active", true).classed("inactive", false)
+                                ))}
         });
-    
+        
 
     //////////////////////////////////////////////////////////////////
     // update y axis when a different y axis label is selected
@@ -246,24 +248,32 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
                 // execute updateToolTip with selected data
                 updateToolTip(selectedX, selectedY, stateGroup);
 
-                // update active class flag for selected label
-                if (selectedY === "obesity") {
-                    obesityLabel.classed("active", true).classed("inactive", false);
-                    smokesLabel.classed("active", false).classed("inactive", true);
-                    healthcareLabel.classed("active", false).classed("inactive", true);
+                // make selected y label active  
+                (selectedY === "obesity") ? 
+                    ( 
+                        obesityLabel.classed("active", true).classed("inactive", false),
+                    	smokesLabel.classed("active", false).classed("inactive", true),
+                    	healthcareLabel.classed("active", false).classed("inactive", true))
 
-                } else if (selectedY === "smokes") {
-                    obesityLabel.classed("active", false).classed("inactive", true);
-                    smokesLabel.classed("active", true).classed("inactive", false);
-                    healthcareLabel.classed("active", false).classed("inactive", true);
+                        : ((selectedY === "smokes") ? 
+                            (
+                                obesityLabel.classed("active", false).classed("inactive", true),
+                    		    smokesLabel.classed("active", true).classed("inactive", false),
+                    		    healthcareLabel.classed("active", false).classed("inactive", true))
 
-                } else {
-                    obesityLabel.classed("active", false).classed("inactive", true);
-                    smokesLabel.classed("active", false).classed("inactive", true);
-                    healthcareLabel.classed("active", true).classed("inactive", false);
-                }
-            }
+                            : 
+                                (
+                                	obesityLabel.classed("active", false).classed("inactive", true),
+                    			    smokesLabel.classed("active", false).classed("inactive", true),
+                    			    healthcareLabel.classed("active", true).classed("inactive", false)
+                                ))}
         });
+
+}).catch(function(error) {
+
+    console.log(error);
+
+});
 
 
 //////////////////////////////////////////////////////////////////////
@@ -371,8 +381,3 @@ function updateToolTip(selectedX, selectedY, stateGroup) {
 
     return stateGroup; 
 }
-
-  
-}).catch(function(error) {
-    console.log(error);
-  });
