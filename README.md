@@ -1,7 +1,7 @@
 # D3-challenge
 ## D3 Homework - Data Journalism and D3
 
-![alt text](D3_data_jounalism/assets/img/screenshot.PNG?raw=true)
+![alt text](D3_data_journalism/assets/img/screenshot.PNG?raw=true)
 
 This application generates a webpage that displays a scatter chart of census data that is loaded from a csv file. 
 You are able to update what is diplaed on the x axis and y axis by clicking the axis group names to the left of the Y axis and below the right axis.
