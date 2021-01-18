@@ -54,19 +54,13 @@ function yScale(stateData, selectedY) {
 function updateX(updatedXScale, xAxis) { 
     
     var bottomAxis = d3.axisBottom(updatedXScale);
-
-    xAxis.transition()
-        .duration(1000)
-        .call(bottomAxis);
+    xAxis.transition().duration(1000).call(bottomAxis);
 }
 
 function updateY(updatedYScale, yAxis) {
 
     var leftAxis = d3.axisLeft(updatedYScale);
-
-    yAxis.transition()
-        .duration(1000)
-        .call(leftAxis);
+    yAxis.transition().duration(1000).call(leftAxis);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -99,47 +93,18 @@ function updateState(stateGroup, updatedXScale, selectedX, updatedYScale, select
 
 function formatX(value, selectedX) {
 
-    if (selectedX === 'poverty') {
-        return `${value}%`;
-    }
-    else if (selectedX === 'income') {
-        return `$${value}`;
-    }
-    else {
-        return `${value}`;
-    }
+    xFormat = (selectedX === "poverty") ? (`${value}%`) : ((selectedX === "income") ? (`$${value}`) : (`${value}`))
+    return xFormat
 }
 
 //////////////////////////////////////////////////////////////////////
 // function for updating tooltips
 //////////////////////////////////////////////////////////////////////
 function updateToolTip(selectedX, selectedY, stateGroup) {
-    var xlabel;
-    var ylabel;
 
-    // x labels
-    if (selectedX === 'poverty') {
-        var xLabel = "Poverty:";
-    }
+    var xLabel= (selectedX === "poverty") ? ("In Poverty:") : ((selectedX === "age") ? ("Age") : ("HH Income:"))
+    var yLabel= (selectedY === "healthcare") ? ("Lacks Healthcare:") : ((selectedY === "obesity") ? ("Obesity:") : ("Smokes:"))
     
-    else if (selectedX === 'age') {
-        var xLabel = "Age:";
-    }
-    else {
-        var xLabel = "Income:";
-    }
-
-    // y labels
-    if (selectedY === 'healthcare') {
-        var yLabel = "W/O Healthcare:"
-    }
-    else if (selectedY === 'obesity') {
-        var yLabel = "Obese:"
-    }
-    else {
-        var yLabel = "Smokes:"
-    }
-
     // generate tooltip
     var toolTip = d3.tip()
         .attr("class", "d3-tip")
