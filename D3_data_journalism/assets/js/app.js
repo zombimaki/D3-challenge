@@ -108,18 +108,22 @@ function updateToolTip(selectedX, selectedY, stateGroup) {
     // generate tooltip
     var toolTip = d3.tip()
         .attr("class", "d3-tip")
-        .offset([-8, 0])
+        .offset([-10, 0])
         .html(function(d) {
             return (`${d.state}<br>${xLabel} ${formatX(d[selectedX], selectedX)}<br>${yLabel} ${d[selectedY]}%`);
         });
         
     stateGroup.call(toolTip);
 
-    // mouseover event handling
+    // mouseover/mouseout event handling
     stateGroup.on("mouseover", function(data) {
+
         toolTip.show(data, this);
+
     }).on("mouseout", function(data, index) {
+
         toolTip.hide(data);
+
       });
 
     return stateGroup; 
